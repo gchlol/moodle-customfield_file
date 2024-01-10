@@ -47,7 +47,14 @@ class data_controller extends \core_customfield\data_controller {
      * @param MoodleQuickForm $mform
      */
     public function instance_form_definition(MoodleQuickForm $mform) {
-        $mform->addElement('filemanager', $this->get_form_element_name(), $this->get_field()->get_formatted_name(), null, $this->get_filemanageroptions());
+        $field = $this->get_field();
+        $element_name = $this->get_form_element_name();
+
+        $mform->addElement('filemanager', $element_name, $field->get_formatted_name(), null, $this->get_filemanageroptions());
+
+        if ($field->get_configdata_property('required')) {
+            $mform->addRule($element_name, null, 'required', null, 'client');
+        }
     }
 
     private function get_filemanageroptions() {
@@ -85,6 +92,15 @@ class data_controller extends \core_customfield\data_controller {
 
         parent::instance_form_save($datanew);
     }
+
+    //public function instance_form_validation(array $data, array $files): array {
+    //    $element_name = $this->get_form_element_name();
+    //
+    //    $errors = parent::instance_form_validation($data, $files);
+    //
+    //
+    //    return $errors;
+    //}
 
     /**
      * Returns the default value as it would be stored in the database (not in human-readable format).
