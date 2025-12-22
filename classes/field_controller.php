@@ -52,7 +52,7 @@ class field_controller extends \core_customfield\field_controller {
             $options[$i] = $i;
         }
         $mform->addElement('select', 'configdata[maximumfiles]', get_string('maximumfiles', 'customfield_file'), $options);
-        $mform->setDefault('configdata[maximumfiles]', 1);
+        $mform->setDefault('configdata[maximumfiles]', (int)($this->get_configdata_property('maximumfiles') ?? 1));
         $mform->setType('configdata[maximumfiles]', PARAM_INT);
 
         $choices = get_max_upload_sizes($CFG->maxbytes);
